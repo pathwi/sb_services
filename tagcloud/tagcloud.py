@@ -28,15 +28,16 @@ def generate_tagcloud():
             prefer_horizontal=1,
             colormap='tab20c',
             relative_scaling=0.3,
-            min_font_size=1.5,
+            min_font_size=5,
+            max_font_size=65,
             background_color="#353F4C",
             width=1230,
             height=425,
-            max_words=20,
+            max_words=50,
             scale=3,
-            font_step=11,
+            font_step=7,
             collocations=False,
-            margin=2,
+            margin=30,
             color_func=random_color
 
         ).generate_from_frequencies(range_tag)
