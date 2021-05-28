@@ -12,7 +12,7 @@ def call_data_locobuzz():
     headers_token = "4BB74979-D528-41AB-8B50-3D48639B5D6F"
 
     # Set body
-    sdate = int(datetime.datetime.now().strftime('%s')) - 3600
+    sdate = int(datetime.datetime.now().strftime('%s')) - 10800
     edate = datetime.datetime.now().strftime('%s')
     BrandId = 600
     Nextpagetoken = ""
@@ -33,6 +33,10 @@ def call_data_locobuzz():
 
     result = requests.post(url_locobuzz, data = json.dumps(body), headers = header)
 
+    this_file_path = os.path.abspath(__file__)
+    BASE_DIR = os.path.dirname(this_file_path)
+    ENTIRE_PROJECT_DIR = os.path.dirname(BASE_DIR)
+
     # Write result to file
-    with open(os.path.expanduser('~/project_spacebar/sb_integrations/tag_word.json'), "w") as outfile:
+    with open(os.path.join(ENTIRE_PROJECT_DIR, "tag_word.json"), "w") as outfile:
         json.dump(result.json(), outfile)

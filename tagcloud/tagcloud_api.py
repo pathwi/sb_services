@@ -14,5 +14,5 @@ def get_tag_cloud():
     backgroud_image.set_backgroud()
     time.sleep(2)
     contentful.upload_image()
-    time.sleep(3)
+    time.sleep(2)
     return {"Say": "Tagcloud" }

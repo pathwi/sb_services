@@ -6,11 +6,14 @@ import numpy as np
 
 
 def generate_tagcloud():
+    this_file_path = os.path.abspath(__file__)
+    BASE_DIR = os.path.dirname(this_file_path)
+    ENTIRE_PROJECT_DIR = os.path.dirname(BASE_DIR)
     # Read json file
-    with open(os.path.expanduser('~/project_spacebar/sb_integrations/tag_word.json')) as tag:
+    with open(os.path.join(ENTIRE_PROJECT_DIR, "tag_word.json")) as tag:
         data = json.load(tag)
 
-    if data['data'] is not None:
+    if data['meta']['Status'] == "success":
         # Loop data to make word
         range_tag = {}
         for item in data['data']:
@@ -23,7 +26,7 @@ def generate_tagcloud():
 
         # Generate word cloud with generate_from_frequencies
         wordcloud = WordCloud(
-            font_path=os.path.expanduser('~/project_spacebar/sb_integrations/font/Kanit/Kanit-Light.ttf'),
+            font_path=os.path.join(ENTIRE_PROJECT_DIR, "font", "Kanit", "Kanit-Light.ttf"),
             regexp="[ก-๙a-zA-Z]+",
             prefer_horizontal=1,
             colormap='tab20c',
@@ -47,4 +50,7 @@ def generate_tagcloud():
         plt.imshow(wordcloud)
         plt.axis('off')
         plt.tight_layout(pad=0)
-        plt.savefig(os.path.expanduser('~/project_spacebar/sb_integrations/images/' + 'tagcloud.png'), dpi=100)
+        plt.savefig(os.path.join(ENTIRE_PROJECT_DIR, "images", "tagcloud.png"), dpi=100)
+
+    else:
+        print("Data from locobuzz is 0")
