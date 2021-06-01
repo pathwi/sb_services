@@ -3,9 +3,9 @@ import uvicorn
 
 from tagcloud import tagcloud_api
 
-api = fastapi.FastAPI()
+app = fastapi.FastAPI()
 
-@api.get('/')
+@app.get('/')
 def index():
     return {
         "message": "Hello",
@@ -13,9 +13,9 @@ def index():
     }
 
 def configure():
-    api.include_router(tagcloud_api.router)
+    app.include_router(tagcloud_api.router)
 
 configure()
 
 if __name__ == '__main__':
-    uvicorn.run(api)
+    uvicorn.run(app)
