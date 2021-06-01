@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def generate_tagcloud():
+def generate_tagcloud(heightGenerate, widthGenerate, minfont, maxfont, height, width, filename):
     this_file_path = os.path.abspath(__file__)
     BASE_DIR = os.path.dirname(this_file_path)
     ENTIRE_PROJECT_DIR = os.path.dirname(BASE_DIR)
@@ -31,11 +31,11 @@ def generate_tagcloud():
             prefer_horizontal=1,
             colormap='tab20c',
             relative_scaling=0.3,
-            min_font_size=5,
-            max_font_size=65,
+            min_font_size=minfont,
+            max_font_size=maxfont,
             background_color="#353F4C",
-            width=1230,
-            height=425,
+            width=widthGenerate,
+            height=heightGenerate,
             max_words=50,
             scale=3,
             font_step=7,
@@ -46,11 +46,11 @@ def generate_tagcloud():
         ).generate_from_frequencies(range_tag)
 
         # Generate word cloud to image
-        plt.figure(figsize=(12.3, 4.25), facecolor='#353F4C')
+        plt.figure(figsize=(width, height), facecolor='#353F4C')
         plt.imshow(wordcloud)
         plt.axis('off')
         plt.tight_layout(pad=0)
-        plt.savefig(os.path.join(ENTIRE_PROJECT_DIR, "images", "tagcloud.png"), dpi=100)
+        plt.savefig(os.path.join(ENTIRE_PROJECT_DIR, "images", filename + ".png"), dpi=100)
 
     else:
         print("Data from locobuzz is 0")

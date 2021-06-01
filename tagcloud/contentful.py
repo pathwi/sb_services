@@ -4,13 +4,13 @@ import os
 import datetime
 
 
-def upload_image():
+def upload_image(filename, image_upload):
     this_file_path = os.path.abspath(__file__)
     BASE_DIR = os.path.dirname(this_file_path)
     ENTIRE_PROJECT_DIR = os.path.dirname(BASE_DIR)
 
     time_tagcloud = datetime.datetime.now()
-    time_image = "Spacebar-tagcloud-desktop-" + str(time_tagcloud.strftime("%Y-%m-%dT%H%M%S%f")[:-3] + "Z")
+    time_image = filename + str(time_tagcloud.strftime("%Y-%m-%dT%H%M%S%f")[:-3] + "Z")
     file_image_name = time_image + ".png"
 
     spaceId = "e7ee8kzf5re6"
@@ -22,7 +22,7 @@ def upload_image():
         "Content-Type": "application/octet-stream",
         "Authorization": "Bearer " + cma_token
     }
-    body_upload = open(os.path.join(ENTIRE_PROJECT_DIR, "images", "Spacebar-tagcloud-desktop.png"), 'rb').read()
+    body_upload = open(os.path.join(ENTIRE_PROJECT_DIR, "images", image_upload + ".png"), 'rb').read()
 
     request_upload = requests.post(url_upload, data=body_upload, headers=header_upload)
     response_upload = request_upload.json()

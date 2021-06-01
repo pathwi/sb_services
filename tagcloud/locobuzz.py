@@ -12,7 +12,7 @@ def call_data_locobuzz():
     headers_token = "4BB74979-D528-41AB-8B50-3D48639B5D6F"
 
     # Set body
-    sdate = int(datetime.datetime.now().strftime('%s')) - 10800
+    sdate = int(datetime.datetime.now().strftime('%s')) - 86400
     edate = datetime.datetime.now().strftime('%s')
     BrandId = 600
     Nextpagetoken = ""
