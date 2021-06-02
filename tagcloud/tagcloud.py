@@ -17,7 +17,7 @@ def generate_tagcloud(heightGenerate, widthGenerate, minfont, maxfont, height, w
         # Loop data to make word
         range_tag = {}
         for item in data['data']:
-            range_tag[item['Keyword']] = item['Occurences']
+            range_tag[item['Keyword']] = item['Occurrences']
 
         # Set word color in Word cloud
         def random_color(word=None, font_size=None, position=None, orientation=None, font_path=None, random_state=None):

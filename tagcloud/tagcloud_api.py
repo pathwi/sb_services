@@ -10,7 +10,7 @@ router = fastapi.APIRouter()
 
 # @router.get('/tagcloud')
 @router.on_event("startup")
-@repeat_every(seconds=3600, logger=logger, wait_first=True)
+@repeat_every(seconds=60*60, logger=logger, wait_first=True)
 def get_tag_cloud():
     locobuzz.call_data_locobuzz()
     time.sleep(1)
