@@ -1,11 +1,16 @@
 import fastapi
 import time
+import logging
+from fastapi_utils.tasks import repeat_every
 
 from tagcloud import locobuzz, tagcloud, contentful, backgroud_image
 
+logger = logging.getLogger(__name__)
 router = fastapi.APIRouter()
 
-@router.get('/tagcloud')
+# @router.get('/tagcloud')
+@router.on_event("startup")
+@repeat_every(seconds=10, logger=logger, wait_first=True)
 def get_tag_cloud():
     locobuzz.call_data_locobuzz()
     time.sleep(1)
@@ -21,4 +26,5 @@ def get_tag_cloud():
     time.sleep(1)
     contentful.upload_image("Spacebar-tagcloud-mobile-", "Spacebar-tagcloud-mobile")
     time.sleep(2)
+    print("Tagcloud upload success")
     return {"Say": "Tagcloud"}
