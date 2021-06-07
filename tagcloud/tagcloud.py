@@ -17,7 +17,10 @@ def generate_tagcloud(heightGenerate, widthGenerate, minfont, maxfont, height, w
         # Loop data to make word
         range_tag = {}
         for item in data['data']:
-            range_tag[item['Keyword']] = item['Occurrences']
+            read_word = str(item['Keyword']).encode('unicode-escape')
+            replace_word = read_word.replace(b'\\u0e0d\\u0e39', b'\\uF70F\\u0E39')
+            range_word = replace_word.decode('unicode-escape')
+            range_tag[range_word] = item['Occurrences']
 
         # Set word color in Word cloud
         def random_color(word=None, font_size=None, position=None, orientation=None, font_path=None, random_state=None):
@@ -26,7 +29,7 @@ def generate_tagcloud(heightGenerate, widthGenerate, minfont, maxfont, height, w
 
         # Generate word cloud with generate_from_frequencies
         wordcloud = WordCloud(
-            font_path=os.path.join(ENTIRE_PROJECT_DIR, "font", "Kanit", "Kanit-Light.ttf"),
+            font_path=os.path.join(ENTIRE_PROJECT_DIR, "font", "rsufont", "RSU_Regular.ttf"),
             regexp="[ก-๙a-zA-Z]+",
             prefer_horizontal=1,
             colormap='tab20c',
