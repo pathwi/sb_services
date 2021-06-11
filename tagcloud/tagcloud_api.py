@@ -10,7 +10,7 @@ router = fastapi.APIRouter()
 
 # @router.get('/tagcloud')
 @router.on_event("startup")
-@repeat_every(seconds=60*60, logger=logger, wait_first=True)
+@repeat_every(seconds=60*60*4, logger=logger, wait_first=True)  #every 4 hour
 def get_tag_cloud():
     locobuzz.call_data_locobuzz()
     time.sleep(1)
@@ -25,6 +25,8 @@ def get_tag_cloud():
     contentful.upload_image("Spacebar-tagcloud-desktop-", "Spacebar-tagcloud-desktop")
     time.sleep(1)
     contentful.upload_image("Spacebar-tagcloud-mobile-", "Spacebar-tagcloud-mobile")
-    time.sleep(2)
+    time.sleep(3)
+    contentful.delete_image()
+    time.sleep(3)
     print("Tagcloud upload success")
     return {"Say": "Tagcloud"}

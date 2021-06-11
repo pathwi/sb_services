@@ -3,6 +3,9 @@ import json
 import os
 import datetime
 
+spaceId = "e7ee8kzf5re6"
+environmentId = "master"
+cma_token = "CFPAT-DTNsQqLMS0flsOmUKPsVrZIkwPfC_2jCkpXA9cV9cfw"
 
 def upload_image(filename, image_upload):
     this_file_path = os.path.abspath(__file__)
@@ -12,10 +15,6 @@ def upload_image(filename, image_upload):
     time_tagcloud = datetime.datetime.now()
     time_image = filename + str(time_tagcloud.strftime("%Y-%m-%dT%H%M%S%f")[:-3] + "Z")
     file_image_name = time_image + ".png"
-
-    spaceId = "e7ee8kzf5re6"
-    environmentId = "master"
-    cma_token = "CFPAT-DTNsQqLMS0flsOmUKPsVrZIkwPfC_2jCkpXA9cV9cfw"
 
     url_upload = "https://upload.contentful.com/spaces/" + spaceId + "/uploads"
     header_upload = {
@@ -76,3 +75,38 @@ def upload_image(filename, image_upload):
         "Authorization": "Bearer " + cma_token
     }
     request_publish = requests.put(url_publish, headers=herder_publish)
+
+
+def delete_image():
+    # skip 1 week, limit 200
+    title_match = "spacebar_tagcloud"
+    skip_image = 84
+    url_get_all_assets = "https://api.contentful.com/spaces/" + spaceId + "/environments/master/assets?fields.title[match]=" + title_match + "&skip=" + skip_image + "&limit=200"
+    header_get_all = {
+        "Authorization": "Bearer " + cma_token
+    }
+    request_getall = requests.get(url_get_all_assets, headers=header_get_all)
+    response_getall = request_getall.json()
+
+    # Loop add id assets
+    asset_list = []
+    for item in response_getall["items"]:
+        asset_list.append(item["sys"]["id"])
+
+    for asset_id in asset_list:
+        url_unpublish = "https://api.contentful.com/spaces/" + spaceId + "/environments/" + environmentId + "/assets/" + asset_id + "/published"
+        asset_version = "2"
+        header_unpublish = {
+            "X-Contentful-Version": asset_version,
+            "Authorization": "Bearer " + cma_token
+        }
+        request_unpublish = requests.delete(url_unpublish, headers=header_unpublish)
+
+    for asset_id in asset_list:
+        url_delete_assets = "https://api.contentful.com/spaces/" + spaceId + "/environments/" + environmentId + "/assets/" + asset_id
+        asset_version = "4"
+        header_delete_assets = {
+            "X-Contentful-Version": asset_version,
+            "Authorization": "Bearer " + cma_token
+        }
+        request_delete_assets = requests.delete(url_delete_assets, headers=header_delete_assets)
